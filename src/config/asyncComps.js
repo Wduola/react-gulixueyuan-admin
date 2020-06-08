@@ -1,22 +1,23 @@
+/*
+  将所有组件引入模块
+*/
 import { lazy } from "react";
 
 const Admin = () => lazy(() => import("@pages/Admin"));
 const User = () => lazy(() => import("@pages/Acl/User"));
-const AddOrUpdateUser = () =>
-  lazy(() => import("@pages/Acl/User/components/AddOrUpdateUser"));
-const AssignUser = () =>
-  lazy(() => import("@pages/Acl/User/components/AssignUser"));
+const AddOrUpdateUser = () => lazy(() => import("@pages/Acl/User/components/AddOrUpdateUser"));
+const AssignUser = () => lazy(() => import("@pages/Acl/User/components/AssignUser"));
 const Role = () => lazy(() => import("@pages/Acl/Role"));
 const Permission = () => lazy(() => import("@pages/Acl/Permission"));
-const AssignRole = () =>
-  lazy(() => import("@pages/Acl/Role/components/AssignRole"));
-const AddOrUpdateRole = () =>
-  lazy(() => import("@pages/Acl/Role/components/AddOrUpdateRole"));
+const AssignRole = () => lazy(() => import("@pages/Acl/Role/components/AssignRole"));
+const AddOrUpdateRole = () => lazy(() => import("@pages/Acl/Role/components/AddOrUpdateRole"));
 const Chapter = () => lazy(() => import("@pages/Edu/Chapter"));
 const Comment = () => lazy(() => import("@pages/Edu/Comment"));
 const Course = () => lazy(() => import("@pages/Edu/Course"));
 const Subject = () => lazy(() => import("@pages/Edu/Subject"));
 const Teacher = () => lazy(() => import("@pages/Edu/Teacher"));
+// MyStudy 测试
+const MyStudy = () => lazy(() => import("@pages/Edu/MyStudy"));
 const Settings = () => lazy(() => import("@pages/User/Settings"));
 const Center = () => lazy(() => import("@pages/User/Center"));
 
@@ -36,4 +37,6 @@ export default {
   Teacher,
   Settings,
   Center,
+  // 暴露
+  MyStudy,
 };
