@@ -13,3 +13,20 @@ export function reqGetSubjectList(page, limit) {
     methods: "GET",
   });
 }
+
+// 获取二级分类分页列表数据
+export function reqGetSubSubjectList(parentId) {
+  return request({
+    url: `${MOCK_BASE_URL}/get/${parentId}`,
+    methods: "GET",
+  });
+}
+
+// 添加课程分类
+export function reqAddSubject(title, parentId) {
+  return request({
+    url: `${MOCK_BASE_URL}/save`,
+    method: "POST",
+    data: { title, parentId },
+  });
+}

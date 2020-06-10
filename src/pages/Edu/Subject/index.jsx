@@ -1,41 +1,51 @@
-import React, { Component } from "react";
-// 引入Antd的按钮组件
-import { Button, Table } from "antd";
-// 引入Antd的图标
+import React, { Component } from "react"; // 引入Antd的按钮组件
+import { Button, Table } from "antd"; // 引入Antd的图标
 import { PlusOutlined, FormOutlined, DeleteOutlined } from "@ant-design/icons";
+import { connect } from "react-redux";
+import { getSubjectList, getSubSubjectList } from "./redux";
+import "./index.less"; // 引入样式
 
-// 引入mock数据
-import { reqGetSubjectList } from "@api/edu/subject";
-
-// 引入样式
-import "./index.less";
-
-export default class Subject extends Component {
+@connect(
+  (state) => ({ subjectList: state.subjectList }), // 状态数据
+  {
+    // 更新状态数据的方法
+    getSubjectList,
+    getSubSubjectList,
+  }
+)
+class Subject extends Component {
   state = {
-    subjects: {
-      total: 0,
-      items: [],
-    },
+    expandedRowKeys: [], //展开项
   };
 
   componentDidMount() {
     //  上一次请求第一页的数据
-    this.getSubjectList(1, 10);
+    this.props.getSubjectList(1, 10);
   }
 
-  // 获取subject分页列表的数据
-  getSubjectList = async (page, limit) => {
-    // console.log(page, limit);
-    // 发送请求
-    const result = await reqGetSubjectList(page, limit);
-    // console.log(result);
-    // 更新数据
+  // 点击展开一级菜单
+  handleExpandedRowsChange = (expandedRowKeys) => {
+    const length = expandedRowKeys.length;
+    // 如果最新长度大于之前的长度，说明就是展开~
+    if (length > this.state.expandedRowKeys.length) {
+      const lastKey = expandedRowKeys[length - 1];
+      // 发送请求，请求要展开菜单的二级菜单数据
+      this.props.getSubSubjectList(lastKey);
+    }
+    // 更新state --> 告诉Table哪个子菜单需要展开
     this.setState({
-      subjects: result,
+      expandedRowKeys,
     });
   };
+
+  // 点击按钮新建
+  showAddSubject = () => {
+    this.props.history.push("/edu/subject/add");
+  };
+
   render() {
-    const { subjects } = this.state;
+    const { subjectList, getSubjectList } = this.props;
+    const { expandedRowKeys } = this.state;
     const columns = [
       {
         title: "分类名称",
@@ -62,30 +72,37 @@ export default class Subject extends Component {
 
     return (
       <div className="subject">
-        <Button type="primary" className="subject-btn">
+        <Button type="primary" className="subject-btn" onClick={this.showAddSubject}>
           <PlusOutlined />
           新建
         </Button>
         <Table
           columns={columns} // 决定列头
+          // expandable={{
+          //   expandedRowRender: (record) => <p style={{ margin: 0 }}>{record.description}</p>,
+          //   rowExpandable: (record) => record.name !== "Not Expandable",
+          // }}
           expandable={{
-            // 决定列是否可以展开
-            expandedRowRender: (record) => <p style={{ margin: 0 }}>{record.description}</p>,
-            // 决定行是否可以展开
-            rowExpandable: (record) => record.name !== "Not Expandable",
+            // 内部默认会使用children作为展开的子菜单
+            expandedRowKeys,
+            // 展开行触发的方法
+            onExpandedRowsChange: this.handleExpandedRowsChange,
           }}
-          dataSource={subjects.items} // 决定每一行显示的数据
+          dataSource={subjectList.items} // 决定每一行显示的数据
           rowKey="_id"
           pagination={{
-            total: subjects.total, // 数据总数
+            total: subjectList.total, // 数据总数
             showQuickJumper: true, // 是否显示快速跳转
             showSizeChanger: true, // 是否显示修改每页显示数量
             pageSizeOptions: ["5", "10", "15", "20"],
             defaultPageSize: 10,
-            onChange: this.getSubjectList, // 页码发生变化触发的回调
+            onChange: getSubjectList, // 页码发生变化触发的回调
+            onShowSizeChange: getSubjectList, //控制每页显示数量
           }}
         />
       </div>
     );
   }
 }
+
+export default Subject;

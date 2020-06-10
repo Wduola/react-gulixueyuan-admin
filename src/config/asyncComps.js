@@ -18,6 +18,8 @@ const Subject = () => lazy(() => import("@pages/Edu/Subject"));
 const Teacher = () => lazy(() => import("@pages/Edu/Teacher"));
 // MyStudy 测试
 const MyStudy = () => lazy(() => import("@pages/Edu/MyStudy"));
+// Subject 新建
+const AddSubject = () => lazy(() => import("@pages/Edu/Subject/components/AddSubject"));
 const Settings = () => lazy(() => import("@pages/User/Settings"));
 const Center = () => lazy(() => import("@pages/User/Center"));
 
@@ -39,4 +41,5 @@ export default {
   Center,
   // 暴露
   MyStudy,
+  AddSubject,
 };
