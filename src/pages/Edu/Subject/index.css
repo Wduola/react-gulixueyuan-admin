@@ -1,0 +1,14 @@
+.subject {
+  background-color: #fff;
+  padding: 20px 0;
+}
+.subject .subject-btn {
+  margin-left: 10px;
+}
+.subject .subject-input {
+  width: 40%;
+  margin-left: 10px;
+}
+.subject-text {
+  color: red;
+}

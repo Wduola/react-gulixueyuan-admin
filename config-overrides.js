@@ -1,10 +1,4 @@
-const {
-  override,
-  fixBabelImports,
-  addLessLoader,
-  addDecoratorsLegacy,
-  addWebpackAlias,
-} = require("customize-cra");
+const { override, fixBabelImports, addLessLoader, addDecoratorsLegacy, addWebpackAlias } = require("customize-cra");
 
 const { resolve } = require("path");
 
@@ -29,6 +23,7 @@ module.exports = override(
   // 添加装饰器语法
   // yarn add @babel/plugin-proposal-decorators --dev
   addDecoratorsLegacy(),
+  // 路径简写 / 路径别名
   addWebpackAlias({
     "@utils": resolvePath("utils"),
     "@api": resolvePath("api"),
