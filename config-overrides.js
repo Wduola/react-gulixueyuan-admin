@@ -1,4 +1,10 @@
-const { override, fixBabelImports, addLessLoader, addDecoratorsLegacy, addWebpackAlias } = require("customize-cra");
+const {
+  override,
+  fixBabelImports,
+  addLessLoader,
+  addDecoratorsLegacy,
+  addWebpackAlias,
+} = require("customize-cra");
 
 const { resolve } = require("path");
 
